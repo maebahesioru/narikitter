@@ -1,0 +1,30 @@
+# 手元で Prisma を動かさずスキーマを反映したいとき:
+# GitHub リポジトリ → Settings → Secrets and variables → Actions
+# に DATABASE_URL（Transaction 6543）と DIRECT_URL（Session 5432）を登録し、Actions から手動実行。
+name: Prisma db push
+
+on:
+  workflow_dispatch:
+
+jobs:
+  db-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: prisma db push
+        run: pnpm exec prisma db push
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}

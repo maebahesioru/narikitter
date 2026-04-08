@@ -1,0 +1,7 @@
+.vercel
+.next
+node_modules
+
+# 秘密情報（.env.local は手元のみ。Vercel には Environment Variables で別途設定）
+.env
+.env*.local
