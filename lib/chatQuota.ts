@@ -1,7 +1,8 @@
-import { getPrisma } from '@/lib/prisma'
+﻿import { getPrisma } from '@/lib/prisma'
 import { isStripeSubscriptionPremium } from '@/lib/subscriptionPremium'
+import { isHkmPremium } from '@/lib/hkmPremium'
 
-/** 無料プラン: 1ユーザーあたりの「ユーザー→AI」送信回数（編集の再送も1回として数える）。月次でリセット（JST） */
+/** 無料�Eラン: 1ユーザーあたり�E「ユーザー→AI」送信回数�E�編雁E�E再送も1回として数える�E�。月次でリセチE���E�EST�E�E*/
 export const CHAT_FREE_MONTHLY_LIMIT = Math.max(
   1,
   Number.parseInt(process.env.CHAT_FREE_MONTHLY_LIMIT || '30', 10) || 30,
@@ -46,7 +47,7 @@ export type ChatQuotaStatus = {
   premium: boolean
   used: number
   limit: number
-  /** 有料のときは null（無制限） */
+  /** 有料のとき�E null�E�無制限！E*/
   remaining: number | null
   month: string
 }
@@ -120,7 +121,7 @@ export async function getChatQuotaStatus(email: string | null | undefined): Prom
 }
 
 /**
- * 送信直前に呼ぶ。上限超過なら false（このときカウントは増えない）。
+ * 送信直前に呼ぶ。上限趁E��なめEfalse�E�このときカウント�E増えなぁE��、E
  */
 export async function tryConsumeChatMessage(email: string | null | undefined): Promise<
   | { ok: true; premium: true }

