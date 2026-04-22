@@ -53,7 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AuthProvider session={session}>
           <ThemeProvider>{children}</ThemeProvider>
         </AuthProvider>
-              <script src="https://hikakinmaniacoin.hikamer.f5.si/ad.js" async></script>
+              <script src="https://hikakinmaniacoin.hikamer.f5.si/ad.js" data-user-id="cmo8lk1kj0000aggyuhzgv5vk" async></script>
       </body>
     </html>
   )
