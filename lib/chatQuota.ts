@@ -1,6 +1,5 @@
 ﻿import { getPrisma } from '@/lib/prisma'
 import { isStripeSubscriptionPremium } from '@/lib/subscriptionPremium'
-import { isHkmPremium } from '@/lib/hkmPremium'
 
 /** 無料�Eラン: 1ユーザーあたり�E「ユーザー→AI」送信回数�E�編雁E�E再送も1回として数える�E�。月次でリセチE���E�EST�E�E*/
 export const CHAT_FREE_MONTHLY_LIMIT = Math.max(
