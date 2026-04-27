@@ -5,6 +5,7 @@ import { AuthProvider } from './components/AuthProvider'
 import { ThemeProvider } from './components/ThemeProvider'
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense'
 
+// rebuild trigger
 export const metadata: Metadata = {
   metadataBase: new URL('https://narikitter.hikamer.f5.si'),
   title: 'なりきったー (Narikitter)',
