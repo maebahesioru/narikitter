@@ -6,6 +6,7 @@ import { ThemeProvider } from './components/ThemeProvider'
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://narikitter.hikamer.f5.si'),
   title: 'なりきったー (Narikitter)',
   description: 'X（Twitter）ユーザーの公開ツイートを参考に、そのアカウントになりきって会話できるサービスです。',
   keywords: 'なりきったー, Narikitter, Twitter, X, ツイート, なりきり',
@@ -15,11 +16,13 @@ export const metadata: Metadata = {
     description: 'X（Twitter）ユーザーの公開ツイートを参考に、そのアカウントになりきって会話できます。',
     type: 'website',
     locale: 'ja_JP',
+    images: ['/opengraph-image'],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'なりきったー (Narikitter)',
     description: 'X（Twitter）ユーザーの公開ツイートを参考に、そのアカウントになりきって会話できます。',
+    images: ['/opengraph-image'],
   },
   robots: { index: true, follow: true },
   other: { 'mobile-web-app-capable': 'yes', 'apple-mobile-web-app-capable': 'yes', 'apple-mobile-web-app-status-bar-style': 'black-translucent' },
