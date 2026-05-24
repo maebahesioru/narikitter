@@ -4,7 +4,7 @@ const OPENAI_API_BASE = process.env.OPENAI_API_BASE || 'http://localhost:2048/v1
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || ''
 
 export const OPENAI_MODELS = [
-  'AnthropicClaude47Opus',
+  'GeminiPro31Preview',
 ]
 
 export async function callOpenAIStream(
