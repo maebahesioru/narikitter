@@ -27,6 +27,9 @@ export const YAHOO_HEADERS = {
 const tweetCache = new Map<string, { entries: { own: YahooEntry[]; mentions: YahooEntry[] }; ts: number }>()
 const CACHE_TTL = 1000 * 60 * 60
 
+// YAHOO_PROXY環境変数が設定されてれば、Cloudflare Workerなど別IP経由でYahoo APIを叩く
+const YAHOO_BASE = (process.env.YAHOO_PROXY || 'https://search.yahoo.co.jp/realtime/api/v1').replace(/\/$/, '')
+
 export async function fetchUserTweets(userId: string): Promise<{ own: YahooEntry[]; mentions: YahooEntry[] }> {
   const cached = tweetCache.get(userId)
   if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.entries
@@ -37,7 +40,7 @@ export async function fetchUserTweets(userId: string): Promise<{ own: YahooEntry
     Promise.all(
       starts.map(start => {
         const params = new URLSearchParams({ p: query, results: '40', start: String(start) })
-        return fetch(`https://search.yahoo.co.jp/realtime/api/v1/pagination?${params}`, { headers: YAHOO_HEADERS })
+        return fetch(`${YAHOO_BASE}/pagination?${params}`, { headers: YAHOO_HEADERS })
           .then(r => (r.ok ? r.json() : null))
           .then(d => (d?.timeline?.entry || []) as YahooEntry[])
           .catch(() => [] as YahooEntry[])
