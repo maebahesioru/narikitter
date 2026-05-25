@@ -40,8 +40,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return true
         }
         if (
-          method === 'GET' &&
-          (pathname === '/api/chat' || pathname === '/api/og')
+          pathname === '/api/chat' || pathname === '/api/og'
         ) {
           return true
         }
