@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/auth'
 import { rateLimit } from '@/lib/rateLimit'
 import { fetchUserTweets, YAHOO_HEADERS, type YahooEntry } from '@/lib/yahooRealtime'
 import { callOpenAIStream, transformOpenAIStream } from '@/lib/openaiStream'
@@ -38,12 +37,6 @@ export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
   if (!rateLimit(ip, 20, 60_000)) return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
 
-  const session = await auth()
-  const email = session?.user?.email
-  if (!email) {
-    return NextResponse.json({ error: 'ログインが必要です', code: 'UNAUTHORIZED' }, { status: 401 })
-  }
-
   try {
     const body = await request.json().catch(() => null)
     if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
@@ -55,7 +48,7 @@ export async function POST(request: NextRequest) {
     const { own: tweets, mentions } = await fetchUserTweets(userId)
     if (!tweets.length) return NextResponse.json({ error: 'User not found or no tweets' }, { status: 404 })
 
-    const quota = await tryConsumeChatMessage(email)
+    const quota = await tryConsumeChatMessage(ip)
     if (!quota.ok) {
       return NextResponse.json(
         {
