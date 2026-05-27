@@ -44,6 +44,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         ) {
           return true
         }
+        if (pathname === '/api/users') {
+          return true
+        }
         if (pathname.startsWith('/api/') && !pathname.startsWith('/api/auth')) {
           return NextResponse.json({ error: 'ログインが必要です' }, { status: 401 })
         }

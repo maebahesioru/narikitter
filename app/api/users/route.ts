@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { rateLimit } from '@/lib/rateLimit'
+import { YAHOO_HEADERS } from '@/lib/yahooRealtime'
 
-const YAHOO_HEADERS = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-  'Accept': 'application/json, text/plain, */*',
-  'Referer': 'https://search.yahoo.co.jp/realtime/search',
+const YAHOO_DIRECT_BASE = 'https://search.yahoo.co.jp/realtime/api/v1'
+const YAHOO_PROXY_BASE = process.env.YAHOO_PROXY?.replace(/\/$/, '')
+
+async function yahooFetch(pathAndQuery: string): Promise<Response> {
+  const directRes = await fetch(`${YAHOO_DIRECT_BASE}${pathAndQuery}`, { headers: YAHOO_HEADERS })
+  if (directRes.ok || !YAHOO_PROXY_BASE) return directRes
+  return fetch(`${YAHOO_PROXY_BASE}${pathAndQuery}`, { headers: YAHOO_HEADERS })
 }
 
 type YahooTimelineEntry = { screenName: string; name: string; profileImage: string }
@@ -41,7 +45,7 @@ export async function GET(request: NextRequest) {
       for (let attempt = 0; attempt < 8; attempt++) {
         const rq = chars[Math.floor(Math.random() * chars.length)]
         const params = new URLSearchParams({ p: `ID:${rq}`, results: '40' })
-        const res = await fetch(`https://search.yahoo.co.jp/realtime/api/v1/pagination?${params}`, { headers: YAHOO_HEADERS })
+        const res = await yahooFetch(`/pagination?${params}`)
         if (!res.ok) continue
         const data = await res.json()
         const users = buildUsersFromYahooJson(data)
@@ -60,7 +64,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const params = new URLSearchParams({ p: `ID:${q}`, results: '40' })
-    const res = await fetch(`https://search.yahoo.co.jp/realtime/api/v1/pagination?${params}`, { headers: YAHOO_HEADERS })
+    const res = await yahooFetch(`/pagination?${params}`)
     if (!res.ok) return NextResponse.json({ users: [] })
 
     const data = await res.json()
