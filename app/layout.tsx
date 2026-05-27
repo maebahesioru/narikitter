@@ -1,11 +1,8 @@
-﻿import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import './globals.css'
-import { auth } from '@/auth'
-import { AuthProvider } from './components/AuthProvider'
 import { ThemeProvider } from './components/ThemeProvider'
 import { ADSENSE_CLIENT_ID } from '@/lib/adsense'
 
-// rebuild trigger
 export const metadata: Metadata = {
   metadataBase: new URL('https://narikitter.hikamer.f5.si'),
   title: 'なりきったー (Narikitter)',
@@ -33,9 +30,7 @@ const adsenseInDev = process.env.NEXT_PUBLIC_ADSENSE_IN_DEV === '1'
 const loadAdsenseScript =
   !!ADSENSE_CLIENT_ID && (process.env.NODE_ENV === 'production' || adsenseInDev)
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth()
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja" suppressHydrationWarning>
       <head>
@@ -50,13 +45,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             crossOrigin="anonymous"
           />
         ) : null}
-        {/* theme-init: data-theme のみ（removeChild のモンキーパッチは React 19 と衝突し真っ黒になるため入れない） */}
         <script src="/theme-init.js" />
       </head>
       <body suppressHydrationWarning>
-        <AuthProvider session={session}>
-          <ThemeProvider>{children}</ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   )

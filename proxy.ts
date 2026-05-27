@@ -1,6 +1,5 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { auth } from '@/auth'
 import { rateLimitByKey } from '@/lib/rateLimit'
 import { getClientIp } from '@/lib/security/clientIp'
 import { isIpBlocked } from '@/lib/security/ipBlocklist'
@@ -22,7 +21,8 @@ function applyDeviceCookie(res: NextResponse, id: string, isNew: boolean): void 
   })
 }
 
-export const proxy = auth((req: NextRequest) => {
+// 認証ラッパー撤廃 — 全アクセス許可
+export function proxy(req: NextRequest) {
   const ip = getClientIp(req)
 
   if (isIpBlocked(ip)) {
@@ -66,7 +66,7 @@ export const proxy = auth((req: NextRequest) => {
   const res = NextResponse.next()
   applyDeviceCookie(res, deviceId, isNew)
   return res
-})
+}
 
 export const config = {
   matcher: [

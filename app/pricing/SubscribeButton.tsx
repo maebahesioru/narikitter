@@ -1,10 +1,8 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 
 export function SubscribeButton() {
-  const { status } = useSession()
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string | null>(null)
 
@@ -22,13 +20,6 @@ export function SubscribeButton() {
     } finally {
       setLoading(false)
     }
-  }
-
-  if (status === 'loading') {
-    return <p className="text-xs" style={{ color: 'var(--text-faint)' }}>…</p>
-  }
-  if (status === 'unauthenticated') {
-    return <p className="text-xs">ログインすると Stripe 決済に進めます。</p>
   }
 
   return (

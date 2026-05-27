@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
-import { auth } from '@/auth'
 import { getStripe } from '@/lib/stripe'
 
-export async function POST() {
-  const session = await auth()
-  const email = session?.user?.email
-  if (!email) {
-    return NextResponse.json({ error: 'ログインが必要です' }, { status: 401 })
-  }
+export async function POST(req: Request) {
+  // 認証撤廃 — リクエストボディからメールを受け取る
+  let email = 'anonymous@narikitter.local'
+  try {
+    const body = await req.json()
+    if (body.email) email = body.email
+  } catch {}
 
   const stripe = getStripe()
   const priceId = process.env.STRIPE_PRICE_ID

@@ -1,20 +1,15 @@
-import NextAuth from 'next-auth'
-import Google from 'next-auth/providers/google'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  trustHost: true,
-  providers: [
-    Google({
-      allowDangerousEmailAccountLinking: false,
-    }),
-  ],
-  pages: {
-    signIn: '/login',
-  },
-  callbacks: {
-    authorized() {
-      // 全ページ・全APIを認証なしで公開
-      return true
-    },
-  },
-})
+// 全認証撤廃済み — 認証ゲートなし
+export function auth() {
+  return null
+}
+
+export const handlers = {
+  GET: () => NextResponse.json({ message: 'auth disabled' }),
+  POST: () => NextResponse.json({ message: 'auth disabled' }),
+}
+
+export const signIn = () => {}
+export const signOut = () => {}
