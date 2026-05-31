@@ -8,7 +8,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-/// Stripe サブスク（メールは Google OAuth のメールと一致）
+/// Stripe サブスク（メールでユーザーを識別）
 model Subscription {
   id                   String    @id @default(cuid())
   email                String    @unique

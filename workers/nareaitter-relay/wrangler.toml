@@ -1,0 +1,5 @@
+# Cloudflare Worker: Nareaitter Yahoo API Relay
+name = "nareaitter-relay"
+main = "worker.ts"
+compatibility_date = "2025-05-25"
+usage_model = "bundled"

@@ -34,7 +34,7 @@ export default async function PricingPage({
             無料
           </h2>
           <p>
-            Google でログインしたうえで、チャットの送信は<strong style={{ color: 'var(--text)' }}>月あたり 30 通まで</strong>
+            ログインしたうえで、チャットの送信は<strong style={{ color: 'var(--text)' }}>月あたり 30 通まで</strong>
             （日本時間の月初でリセット）。編集からの再送も 1 通として数えます。
           </p>
         </section>
@@ -45,7 +45,7 @@ export default async function PricingPage({
           </h2>
           <p className="mb-4">
             <strong style={{ color: 'var(--text)' }}>Stripe</strong> のサブスクリプションで、チャット送信が無制限になります（
-            <strong style={{ color: 'var(--text)' }}>ログイン中の Google メール</strong>と Stripe の顧客メールが一致している必要があります）。
+            <strong style={{ color: 'var(--text)' }}>ログイン中のメール</strong>と Stripe の顧客メールが一致している必要があります）。
           </p>
           <SubscribeButton />
           <p className="text-xs mt-4" style={{ color: 'var(--text-faint)' }}>

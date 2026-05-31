@@ -1,0 +1,7 @@
+# Cloudflare Worker: Yahoo Realtime API Relay
+name = "yahoo-relay-v2"
+main = "worker.ts"
+compatibility_date = "2025-05-25"
+
+# 無料プランで十分（1日10万リクエスト）
+usage_model = "bundled"
